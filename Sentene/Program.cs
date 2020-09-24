@@ -29,6 +29,7 @@ namespace Sentene
 
             string sentences = "Предложение 1! Предложение 2. Предлодение 3? Предложение 4...";
             Text text1 = new Text(sentences);
+            text1.Print();
         }
     }
 
@@ -42,17 +43,17 @@ namespace Sentene
             Words = sentences.Split(' ').ToList<string>();
         }
 
-        public virtual void Add(string word)
+        public void Add(string word)
         {
             Words.Add(word);
         }
 
-        public virtual void Insert(int pos, string word)
+        public void Insert(int pos, string word)
         {
             Words.Insert(pos, word);
         }
 
-        public virtual void RemoveAt(int pos)
+        public void RemoveAt(int pos)
         {
             Words.RemoveAt(pos);
         }
@@ -62,7 +63,7 @@ namespace Sentene
             Words.RemoveAll(Words => Words.Contains(word));
         }
 
-        public virtual void Set(string sentence)
+        public void Set(string sentence)
         {
             Words = sentence.Split(' ').ToList();
         }
@@ -76,12 +77,12 @@ namespace Sentene
             private set { }
         }
 
-        public virtual IEnumerator GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             return Words.GetEnumerator();
         }
 
-        public virtual void Print()
+        public void Print()
         {
             foreach (var word in Words)
             {
@@ -92,22 +93,21 @@ namespace Sentene
 
     }
 
-    class Text : Sentence
+    class Text
     {
         protected List<Sentence> Sentences;
         public int Length => Sentences.Count;
-        public Text(string sentences) : base(sentences)
+        public Text(string sentences)
         {
-            //Sentences = new List<Sentence>();
-            //string[] text = Regex.Split(sentences, @"(?<=[\.!\?])\s+");
-            //Words = text.ToList<string>();
-            //foreach (var item in Words)
-            //{
-            //    Sentences.Add(new item);
-            //}
+            Sentences = new List<Sentence>();
+            string[] texts = Regex.Split(sentences, @"(?<=[\.!\?])\s+");
+            foreach (var text in texts)
+            {
+                Sentences.Add(new Sentence(text));
+            }
         }
 
-        public override void Add(string sentence)
+        public void Add(string sentence)
         {
             Sentences.Add(new Sentence(sentence));
         }
@@ -117,22 +117,22 @@ namespace Sentene
             Sentences.Add(sentence);
         }
 
-        public override void Insert(int pos, string sentence)
+        public void Insert(int pos, string sentence)
         {
             Sentences.Insert(pos, new Sentence(sentence));
         }
 
-        public override void RemoveAt(int pos)
+        public void RemoveAt(int pos)
         {
             Sentences.RemoveAt(pos);
         }
 
-        public override void Set(string text)
+        public void Set(string text)
         {
             //Sentences = new List<Sentence>();
         }
 
-        public override IEnumerator GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             return Sentences.GetEnumerator();
         }
@@ -141,7 +141,7 @@ namespace Sentene
 
         public string this[int s, int w] => Sentences[s][w];
 
-        public override void Print()
+        public void Print()
         {
             foreach (var sentence in Sentences)
             {
