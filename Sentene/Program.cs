@@ -13,7 +13,8 @@ namespace Sentene
     {
         static void Main(string[] args)
         {
-            string text = "Экзаменационное задание по C#";
+            //string text = "Экзаменационное задание по C#";
+            string text = "задание задание Экзаменационное задание по C#";
             Sentence sentence = new Sentence(text);
             sentence.Print();
             Console.WriteLine(sentence[0]);
@@ -21,6 +22,10 @@ namespace Sentene
             {
                 Console.WriteLine(item);
             }
+            sentence.RemoveAll("задание");
+            sentence.Print();
+
+
 
             string sentences = "Предложение 1! Предложение 2. Предлодение 3? Предложение 4...";
             Text text1 = new Text(sentences);
@@ -54,7 +59,7 @@ namespace Sentene
 
         public void RemoveAll(string word)
         {
-            
+            Words.RemoveAll(Words => Words.Contains(word));
         }
 
         public virtual void Set(string sentence)
@@ -91,9 +96,15 @@ namespace Sentene
     {
         protected List<Sentence> Sentences;
         public int Length => Sentences.Count;
-        public Text(string sentens) : base(sentens)
+        public Text(string sentences) : base(sentences)
         {
-            Sentences = new List<Sentence>();
+            //Sentences = new List<Sentence>();
+            //string[] text = Regex.Split(sentences, @"(?<=[\.!\?])\s+");
+            //Words = text.ToList<string>();
+            //foreach (var item in Words)
+            //{
+            //    Sentences.Add(new item);
+            //}
         }
 
         public override void Add(string sentence)
