@@ -26,10 +26,17 @@ namespace Sentene
             sentence.Print();
 
 
-
             string sentences = "Предложение 1! Предложение 2. Предлодение 3? Предложение 4...";
             Text text1 = new Text(sentences);
             text1.Print();
+
+            sentences = "Разработать класс FileText, который наследует от Text и добавляет следующие методы:";
+            FileText fileText = new FileText(sentences);
+            fileText.Save("file.txt");
+
+            FileText fileText1= new FileText("");
+            fileText1.Load("file.txt");
+            fileText1.Print();
         }
     }
 
@@ -100,11 +107,18 @@ namespace Sentene
         public Text(string sentences)
         {
             Sentences = new List<Sentence>();
+            ParseTextAndSetSentences(sentences);
+        }
+
+        protected void ParseTextAndSetSentences(string sentences)
+        {
+            Sentences.Clear();
             string[] texts = Regex.Split(sentences, @"(?<=[\.!\?])\s+");
             foreach (var text in texts)
             {
                 Sentences.Add(new Sentence(text));
             }
+
         }
 
         public void Add(string sentence)
@@ -127,9 +141,9 @@ namespace Sentene
             Sentences.RemoveAt(pos);
         }
 
-        public void Set(string text)
+        public void Set(string texts)
         {
-            //Sentences = new List<Sentence>();
+            ParseTextAndSetSentences(texts);
         }
 
         public IEnumerator GetEnumerator()
@@ -152,6 +166,7 @@ namespace Sentene
 
     class FileText : Text
     {
+
         public FileText(string sentens) : base(sentens)
         {
 
@@ -161,20 +176,23 @@ namespace Sentene
         {
             using (StreamWriter writer = new StreamWriter(path))
             {
-                foreach (var sentece in Sentences)
+                for (int i = 0; i < Sentences.Count; i++)
                 {
-                    writer.Write(sentece);
+                    foreach (var item in Sentences[i])
+                    {
+                        writer.Write(item + " ");
+                    }
+                    
                 }
             }
         }
 
-        public Text Load(string path)
+        public void Load(string path)
         {
             using (StreamReader reader = new StreamReader(path))
             {
-                return new Text(reader.ReadToEnd());
+                ParseTextAndSetSentences(reader.ReadToEnd());
             }
-            throw new Exception("Ошибка с путем к файлу.");
         }
     }
 }
