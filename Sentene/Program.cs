@@ -54,7 +54,7 @@ namespace Sentene
 
         public void RemoveAll(string word)
         {
-            //Words.RemoveAll();
+            
         }
 
         public virtual void Set(string sentence)
